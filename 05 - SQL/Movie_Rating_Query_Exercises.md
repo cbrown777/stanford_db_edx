@@ -1,6 +1,7 @@
 # SQL Movie-Rating Query Exercises Answers
 
-These are my solutions to the SQL Movie Rating Query exercises
+These are my solutions to the SQL Movie Rating Query exercises.
+
 You can view the database here: https://courses.edx.org/asset-v1:StanfordOnline+SOE.YDB-SQL0001+2T2020+type@asset+block/moviedata.html
 
 
