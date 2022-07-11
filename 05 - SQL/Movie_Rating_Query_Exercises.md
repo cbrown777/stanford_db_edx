@@ -1,9 +1,8 @@
 # SQL Movie-Rating Query Exercises Answers
 
-This is the seemingly correct answers to the SQL Movie Rating Query exercises from 
-[Prof. J. Widom][2] (infamous :) db class.
+These are my solutions to the SQL Movie Rating Query exercises
+You can view the database here: https://courses.edx.org/asset-v1:StanfordOnline+SOE.YDB-SQL0001+2T2020+type@asset+block/moviedata.html
 
-The `sql` script generating the database for this exercise is located [here][1].
 
 ## Q1
 
