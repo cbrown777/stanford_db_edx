@@ -22,9 +22,8 @@ return that student's name and grade, and the name and grade of the student they
 
 ```sql
 select H1.name, H1.grade, H2.name, H2.grade
-    from Highschooler as H1, Highschooler as H2, Likes as L
-    where (H1.grade- H2.grade) >= 2  and L.ID1 = H1.ID and 
-            L.ID2 = H2.ID and H1.name > H2.name; 
+from Likes, Highschooler H1, Highschooler H2
+where Likes.ID1 = H1.ID and Likes.ID2 = H2.ID and (H1.grade - H2.grade >= 2);
 ```
 
 ## Q3
@@ -33,19 +32,9 @@ For every pair of students who both like each other, return the name and grade o
 students. Include each pair only once, with the two names in alphabetical order. 
 
 ```sql
-select * from
-
-(select H1.name as n1, H1.grade, H2.name as n2, H2.grade
-    from Highschooler as H1, Highschooler as H2, Likes as L
-    where H1.ID = L.ID2 and H2.ID = L.ID1 and H1.name < H2.name
-    
-intersect
-
-select H1.name as n1, H1.grade, H2.name as n2, H2.grade
-    from Highschooler as H1, Highschooler as H2, Likes as L
-    where H1.ID = L.ID1 and H2.ID = L.ID2 and H1.name < H2.name) as T
-    
-    order by T.n1, T.n2;
+select H1.name, H1.grade, H2.name, H2.grade
+from Highschooler H1, Highschooler H2, (select L1.ID1, L1.ID2 from Likes L1, Likes L2 where L1.ID1 = L2.ID2 and L1.ID2 = L2.ID1) L
+where L.ID1 = H1.ID and L.ID2 = H2.ID and H1.name < H2.name;
 ```
 
 ## Q4
@@ -54,13 +43,10 @@ Find all students who do not appear in the Likes table (as a student who likes o
 liked) and return their names and grades. Sort by grade, then by name within each grade. 
 
 ```sql
-select H.name, H.grade
-    from Highschooler as H
-    where H.ID not in 
-        (select L.ID1 as ID from Likes as L 
-            union 
-         select L.ID2 as ID from Likes as L)
-    order by H.grade, H.name;
+select name, grade
+from Highschooler
+where ID not in (select Likes.ID1 as likes from Likes union select Likes.ID2 as likes from Likes)
+order by grade, name;
 ```
 
 ## Q5
@@ -72,11 +58,8 @@ names and grades.
 
 ```sql
 select H1.name, H1.grade, H2.name, H2.grade
-    from Highschooler as H1, Highschooler as H2,
-    (select ID1, ID2 from
-        Likes
-        where ID2 not in (select ID1 from Likes)) as T
-    where H1.ID = T.ID1 and H2.ID = T.ID2;
+from Highschooler H1,  Highschooler H2, (select ID1, ID2 from Likes where ID2 not in (select ID1 from Likes)) L
+where L.ID1 = H1.ID and L.ID2 = H2.ID;
 ```
 
 ## Q6
